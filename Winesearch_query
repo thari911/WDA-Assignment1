@@ -16,7 +16,6 @@
 
 	  //(1) Open the database connection
 	  $connection = mysqli_connect("localhost","root","nigger","winestore");	
-	  //mysql_select_db("winestore",$connection);
 	  $result = mysqli_query($connection, "SELECT * FROM winestore");
 
 	  // (2) Run the query on the winestore through the connection
@@ -29,11 +28,6 @@
 				AND wine_variety.variety_id = grape_variety.variety_id
 				AND wine.wine_id = inventory.wine_id";
 				
-	  // wine,countries,customer,grape_variety,inventory,items,orders
-	  // region,titles,users,wine,wine_type,wine_variety,winery
-	  // WHERE
-	  // wine.wine_name='$wine_name' AND
-	  // region.region_name='$region'
 	  $result = mysqli_query($connection, $query)
 	  or die("Error: ".mysqli_error($connection));
 		
@@ -49,16 +43,14 @@
 			<th>Minimum Cost</th></tr>";
 	
 	   while ($row = mysqli_fetch_array($result)) {
-	   //for ($i = 0; $i < mysqli_num_fields($result); $i++) {
-		  echo "<tr><td>".$row[0]."</td>";
+	   	  echo "<tr><td>".$row[0]."</td>";
 		  echo "<td>".$row[1]."</td>";
 		  echo "<td>".$row[2]."</td>";
 		  echo "<td>".$row[3]."</td>";
 		  echo "<td>".$row[4]."</td>";
 		  echo "<td>".$row[5]."</td>";
 		  echo "<td>".$row[6]."</td>";
-		  //break;
-	  // }
+		
 	   // Print a carriage return to neaten the output
 	   echo "\n";
 	  }
