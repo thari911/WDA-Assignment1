@@ -16,6 +16,7 @@
 
 	  //(1) Open the database connection
 	  $connection = mysqli_connect("localhost","root","nigger","winestore");	
+	  //mysql_select_db("winestore",$connection);
 	  $result = mysqli_query($connection, "SELECT * FROM winestore");
 
 	  // (2) Run the query on the winestore through the connection
@@ -38,15 +39,14 @@
 		
 
 	  // Start the HTML body, and output preformatted text
-	  echo "<pre>\n";
 	  echo "<table border='1'>";
-	  echo "<tr><td>Wine Name</td>
-			<td>Wine Variety</td>
-		    <td>Year</td>
-		    <td>Winery Name</td>
-		    <td>Region Name</td>
-			<td>Total No of Bottles</td>
-			<td>Minimum Cost</td></tr>";
+	  echo "<tr><th>Wine Name</th>
+			<th>Wine Variety</th>
+		    <th>Year</th>
+		    <th>Winery Name</th>
+		    <th>Region Name</th>
+			<th>Total No of Bottles</th>
+			<th>Minimum Cost</th></tr>";
 	
 	   while ($row = mysqli_fetch_array($result)) {
 	   //for ($i = 0; $i < mysqli_num_fields($result); $i++) {
@@ -64,11 +64,8 @@
 	  }
 	  echo "</td></tr>";
 	  echo "</table>";
+
 	 
-
-	  // Finish the HTML document
-	  echo "</pre>";
-
 	  // (4) Close the database connection
 	  mysqli_close($connection);
 ?>
