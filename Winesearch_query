@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>Wines</title>
+</head>
+<body>
+<?php
+	$wine_name = $_GET['wine_name'];
+	$region = $_GET['region'];
+	$winery_name = $_GET['winery_name'];
+	$start_year = $_GET['start_year'];
+	$end_year = $_GET['end_year'];
+	$min_winestock = $_GET['Min_wine_in_stock'];
+	$min_customers = $_GET['Min_customers'];
+	$min_cost = $_GET['cost_min_range'];
+	$max_cost = $_GET['cost_max_range'];
+
+	  //(1) Open the database connection
+	  $connection = mysqli_connect("localhost","root","nigger","winestore");	
+	  $result = mysqli_query($connection, "SELECT * FROM winestore");
+
+	  // (2) Run the query on the winestore through the connection
+	  $query = "SELECT wine.wine_name,grape_variety.variety,wine.year,winery.winery_name,region.region_name,inventory.on_hand,inventory.cost
+				FROM wine,winery,region,wine_variety,grape_variety,inventory
+				WHERE (wine_name='$wine_name')
+				AND wine.winery_id=winery.winery_id
+				AND winery.region_id = region.region_id
+				AND wine_variety.wine_id = wine.wine_id
+				AND wine_variety.variety_id = grape_variety.variety_id
+				AND wine.wine_id = inventory.wine_id";
+				
+	  // wine,countries,customer,grape_variety,inventory,items,orders
+	  // region,titles,users,wine,wine_type,wine_variety,winery
+	  // WHERE
+	  // wine.wine_name='$wine_name' AND
+	  // region.region_name='$region'
+	  $result = mysqli_query($connection, $query)
+	  or die("Error: ".mysqli_error($connection));
+		
+
+	  // Start the HTML body, and output preformatted text
+	  echo "<pre>\n";
+	  echo "<table border='1'>";
+	  echo "<tr><td>Wine Name</td>
+			<td>Wine Variety</td>
+		    <td>Year</td>
+		    <td>Winery Name</td>
+		    <td>Region Name</td>
+			<td>Total No of Bottles</td>
+			<td>Minimum Cost</td></tr>";
+	
+	   while ($row = mysqli_fetch_array($result)) {
+	   //for ($i = 0; $i < mysqli_num_fields($result); $i++) {
+		  echo "<tr><td>".$row[0]."</td>";
+		  echo "<td>".$row[1]."</td>";
+		  echo "<td>".$row[2]."</td>";
+		  echo "<td>".$row[3]."</td>";
+		  echo "<td>".$row[4]."</td>";
+		  echo "<td>".$row[5]."</td>";
+		  echo "<td>".$row[6]."</td>";
+		  //break;
+	  // }
+	   // Print a carriage return to neaten the output
+	   echo "\n";
+	  }
+	  echo "</td></tr>";
+	  echo "</table>";
+	 
+
+	  // Finish the HTML document
+	  echo "</pre>";
+
+	  // (4) Close the database connection
+	  mysqli_close($connection);
+?>
+</body>
+</html>
