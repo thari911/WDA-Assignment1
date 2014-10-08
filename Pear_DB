@@ -1,12 +1,23 @@
 <?php
 set_include_path('C:/wamp/bin/php/php5.5.12/pear');
-
+require_once "HTML/Template/IT.php";
 require_once "DB.php";
 require "../db.inc";
 
+
+$template = new HTML_Template_IT("."); 
+$template2 = new HTML_Template_IT(".");    
+$template->loadTemplatefile("Template_Results.tpl", true, true);	
+$template2->loadTemplatefile("Template_No_Results.tpl",false,false);
+  
+$username="root";
+$password="nigger";
+$hostname="localhost";
+$dbname="winestore";
+
 $dsn = "mysql://{$username}:{$password}@{$hostName}/{$databaseName}";
-			$DB = new DB();
-			$connection=$DB->connect($dsn);
+	$DB = new DB();
+	$connection=$DB->connect($dsn);
 
 $wine_name = $_GET['wine_name'];
 $region = $_GET['region'];
@@ -65,7 +76,7 @@ $max_cost = $_GET['cost_max_range'];
 	}
 
 				 
-$query= "SELECT wine_name,variety,year,winery_name,region_name,on_hand,cost, 
+	$query= "SELECT wine_name,variety,year,winery_name,region_name,on_hand,cost, 
 				(SELECT COUNT(items.cust_id) 
 				FROM items 
 				WHERE items.wine_id = wine.wine_id) AS No_Cust
@@ -86,78 +97,39 @@ $query= "SELECT wine_name,variety,year,winery_name,region_name,on_hand,cost,
 				AND (cost BETWEEN '".$min_cost."' AND '".$max_cost."')				
 				HAVING No_Cust >= '".$min_customers."'";
   
-@$result=$connection->query($query);
-
-		if(@mysqli_num_rows($result) > 0)
+	@$result=$connection->query($query);
+			 
+	   
+		if($result->numrows() == 0)
 		{
-			echo "<table style='margin-left:529px;margin-top:100px' border='0'>
-				<tr>
-					<td>
-						<img src='../logo.jpg' alt='Mountain View' style='width:150px;height:150px'>
-					</td>
-					<td style='text-align:center'>
-						<h1>Wine Search</h1>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					</td>
-					<td>
-						Created By Tharindu Gamage
-					</td>
-				</tr>
-			</table>";
+			$template2->setCurrentBlock("RESULT_Failed");	
+		
+			$template2->parseCurrentBlock(); 	
 			
-			echo "<div style='margin-left:520px;margin-top:70px;font-size:20px'><b>".'No Search Results Matching Your Criteria!!!'."</b></div>";
-		}
-	  
+		$template2->show(); 	
+		} 	
 		else
 		{
-			echo "<table style='margin-left:529px;margin-top:100px' border='0'>
-				<tr>
-					<td>
-						<img src='../logo.jpg' alt='Mountain View' style='width:150px;height:150px'>
-					</td>
-					<td style='text-align:center'>
-						<h1>Wine Search</h1>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					</td>
-					<td>
-						Created By Tharindu Gamage
-					</td>
-				</tr>
-			</table>";
-			
-			echo "<table style='margin-left:130px;margin-top:10px' border='1'>";
-			echo "<tr><th>Wine Name</th>
-				<th>Wine Variety</th>
-				<th>Year</th>
-				<th>Winery Name</th>
-				<th>Region Name</th>
-				<th>Bottles in Stock</th>
-				<th>Minimum Cost</th>
-				<th>No of People Who Purchased the Wine</th></tr>";
-    
-			while ($result->fetchInto($row, DB_FETCHMODE_ASSOC))
-			{
-		
-			echo "<tr><td style='text-align:center'>".$row["wine_name"]."</td>";
-			echo "<td style='text-align:center'>".$row["variety"]."</td>";
-			echo "<td>".$row["year"]."</td>";
-			echo "<td style='text-align:center'>".$row["winery_name"]."</td>";
-			echo "<td style='text-align:center'>".$row["region_name"]."</td>";
-			echo "<td style='text-align:center'>".$row["on_hand"]."</td>";
-			echo "<td style='text-align:center'>".$row["cost"]."</td>";
-			echo "<td style='text-align:center'>".$row['No_Cust']."</td>";
-		  
-			echo "</td></tr>";
-			
-		}
-     		echo "</table>"; 
-		}
-		
+			while ($regionrow = $result->fetchRow(DB_FETCHMODE_ASSOC))
+			{		
+				
+				$template->setCurrentBlock("RESULT_DETAILS");	
+				
+				$template->setVariable("WINENAME", $regionrow["wine_name"]);
+				$template->setVariable("WINE_VARIETY", $regionrow["variety"]);
+				$template->setVariable("YEAR", $regionrow["year"]);
+				$template->setVariable("WINERY_NAME", $regionrow["winery_name"]);
+				$template->setVariable("REGION_NAME", $regionrow["region_name"]);
+				$template->setVariable("ON_HAND", $regionrow["on_hand"]);
+				$template->setVariable("MIN_COST", $regionrow["cost"]);
+				$template->setVariable("MIN_CUSTOMERS", $regionrow["No_Cust"]);
+				 
+				$template->parseCurrentBlock(); 
+					
+			} 
+		$template->show();
+		}    
+		 
+	
 
 ?>
