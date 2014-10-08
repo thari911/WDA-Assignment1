@@ -12,7 +12,6 @@
 
 	//session_start();
 	$connection = mysqli_connect("localhost","root","nigger","winestore");	
-	//mysql_select_db("winestore",$connection);
 	$result = mysqli_query($connection, "SELECT * FROM winestore");
 
 
@@ -25,7 +24,7 @@
 	<body>
 		<table style="margin-left:529px;margin-top:100px" border="0">
 		<tr><td>
-		<img src="logo.jpg" alt="Mountain View" style="width:150px;height:150px">
+		<img src="../logo.jpg" alt="Mountain View" style="width:150px;height:150px">
 		</td>
 		<td><h1>Wine Search</h1></td>
 		</tr>
@@ -45,6 +44,7 @@
 			<td>
 			<?php
 			$region = mysqli_query ($connection,"SELECT region_name FROM region");
+			
 			// Start the HTML body, and output preformatted text 
 			echo "<select name='region'>";
 			while ($row=mysqli_fetch_array($region) )
