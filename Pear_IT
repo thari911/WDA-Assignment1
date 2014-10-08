@@ -3,11 +3,8 @@
   require_once "HTML/Template/IT.php";
   require "../db.inc";
 
-  if (!($connection = @ mysql_connect($hostname, $username, $password)))
-     die("Cannot connect");
-	 
-  if (!(mysql_select_db($databaseName, $connection)))     
-	 showerror();
+  $connection = @ mysqli_connect($hostname, $username, $password,$databaseName);
+     
 	 
 	$wine_name = $_GET['wine_name'];
 	$region = $_GET['region'];
@@ -19,7 +16,7 @@
 	$min_cost = $_GET['cost_min_range'];
 	$max_cost = $_GET['cost_max_range'];
 	  	 
-		if($wine_name == NULL)
+	if($wine_name == NULL)
 	{
 		$wine_name = "";
 	}
@@ -64,10 +61,10 @@
 		$max_cost	 = 9999;
 	}
 	 
-  if (!($regionresult = @ mysql_query ("select wine_name,variety,year,winery_name,region_name,on_hand,cost, 
+  $regionresult =  mysqli_query ($connection,"select wine_name,variety,year,winery_name,region_name,on_hand,cost, 
 										(select count(items.cust_id) 
-											from items 
-											where items.wine_id = wine.wine_id) as No_cust
+										from items 
+										where items.wine_id = wine.wine_id) as No_cust
 										from 
 										wine,winery,region,wine_variety,grape_variety,inventory
 										where 
@@ -82,40 +79,44 @@
 										and winery_name like '%".$winery_name."%' 
 										and on_hand >= '".$min_winestock."'
 										and (year between '".$start_year."' and '".$end_year."')
-										and (cost between '".$min_cost."' and '".$max_cost."')",$connection)))
-										showerror();
+										and (cost between '".$min_cost."' and '".$max_cost."')");										
 				 
   $template = new HTML_Template_IT("."); 
-  // $test = new HTML_Template_IT(".");    
-  $template->loadTemplatefile("Template.tpl", true, true);	
-  // $test->loadTemplatefile("test.tpl",false,false);
+  $template2 = new HTML_Template_IT(".");    
+  $template->loadTemplatefile("Template_Results.tpl", true, true);	
+  $template2->loadTemplatefile("Template_No_Results.tpl",false,false);
   
-  // if(mysqli_num_rows($regionresult) == 0)
-	// {
-		// $template->setCurrentBlock("RESULT_DETAILS");	
+  
+  if(mysqli_num_rows($regionresult) == 0)
+	{
+		$template2->setCurrentBlock("RESULT_Failed");	
 	
-		// $template->parseCurrentBlock(); 	 
-	// } 	
-	
-	// else
-	// {
-	while ($regionrow = mysql_fetch_array($regionresult))
-	{		
-    
-		$template->setCurrentBlock("RESULT_DETAILS");	
+		$template2->parseCurrentBlock(); 	
 		
-		$template->setVariable("WINENAME", $regionrow["wine_name"]);
-		$template->setVariable("WINE_VARIETY", $regionrow["variety"]);
-		$template->setVariable("YEAR", $regionrow["year"]);
-		$template->setVariable("WINERY_NAME", $regionrow["winery_name"]);
-		$template->setVariable("REGION_NAME", $regionrow["region_name"]);
-		$template->setVariable("ON_HAND", $regionrow["on_hand"]);
-		$template->setVariable("MIN_COST", $regionrow["cost"]);
-		$template->setVariable("MIN_CUSTOMERS", $regionrow["No_cust"]);
-		 
-		$template->parseCurrentBlock(); 	 
-	}     
-	$template->show();  
-//}	
+	$template2->show(); 	
+	} 	
+    else
+	{
+		while ($regionrow = mysqli_fetch_array($regionresult))
+		{		
+		
+			$template->setCurrentBlock("RESULT_DETAILS");	
+			
+			$template->setVariable("WINENAME", $regionrow["wine_name"]);
+			$template->setVariable("WINE_VARIETY", $regionrow["variety"]);
+			$template->setVariable("YEAR", $regionrow["year"]);
+			$template->setVariable("WINERY_NAME", $regionrow["winery_name"]);
+			$template->setVariable("REGION_NAME", $regionrow["region_name"]);
+			$template->setVariable("ON_HAND", $regionrow["on_hand"]);
+			$template->setVariable("MIN_COST", $regionrow["cost"]);
+			$template->setVariable("MIN_CUSTOMERS", $regionrow["No_cust"]);
+			 
+			$template->parseCurrentBlock(); 
+				
+		} 
+	$template->show();
+	}    
+	 
+	
 	  
 ?>
