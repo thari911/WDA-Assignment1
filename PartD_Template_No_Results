@@ -28,6 +28,8 @@
 		<!-- BEGIN RESULT_FAILED -->		
 		<div style='margin-left:520px;margin-top:70px;font-size:20px'><b>No Search Results Matching Your Criteria!!!</b></div>
 		
+		</br></br><a style='margin-top:200px;margin-left:520px' href="PartD_Form.php">Back to Search Form</a><br/><br/>
+		
 		<!-- END RESULT_FAILED -->			
 				
 	  	
