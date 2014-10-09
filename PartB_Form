@@ -1,10 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	
+	
 	<script>
 			function myFunction() {
 				document.getElementById("wine_search").reset();
 			}
 			
 	</script>
-	
 	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
 
 
@@ -31,7 +37,8 @@
 		</table>
 		
 		<table style="margin-left:350px;margin-top:30px" border="0">
-		<form id="wine_search" method="get" style="margin-left:280px;margin-top:150px" action="winesearch_query.php"> 
+		<form id="wine_search" method="get" style="margin-left:280px;margin-top:150px" onsubmit="return checkForm()" action="winesearch_query.php"> 
+			
 			<tr>
 			<td>Wine Name :</td>
 			<td>
@@ -64,10 +71,10 @@
 			<tr>
 			<td>Range of Years :</td>
 			<td>
-			From <input maxlength="4" min="1950" max="2000" style="width:50px" type="number" name="start_year" value="" /> to <input style="width:50px" min="1950" max="2000" maxlength="4" type="number" name="end_year" value="" size="6"/>
+			From <input maxlength="4" min="1950" max="2000" style="width:50px" type="number" name="start_year" id="start_year" value="" /> to <input style="width:50px" min="1950" max="2000" maxlength="4" type="number" name="end_year" id="end_year" value="" size="6"/>
 			</td>
 			</tr>
-			
+					
 			<tr>
 			<td>Minimum number of wines in stock :</td>
 			<td>
@@ -85,14 +92,15 @@
 			<tr>
 			<td>Cost Range :</td>
 			<td>
-			Min: <input maxlength="4" min="0" max="9999" style="width:40px" type="number" name="cost_min_range"/> Max: <input maxlength="4" min="0" max="9999" style="width:40px" type="number" name="cost_max_range"/>
+			Min: <input maxlength="4" min="0" max="9999" style="width:40px" type="number" id="cost_min_range" name="cost_min_range"/> Max: <input maxlength="4" min="0" max="9999" style="width:40px" type="number" id="cost_max_range" name="cost_max_range"/>
 			</td>
 			</tr>
 		</table>
 		
 		<input style="margin-left:629px;width:120px;margin-top:10px" type="submit" name="search" value="Search"/>
 		<br>
-		<button style="margin-left:300px" type="reset" value='Reset'>Reset Form</button>
+		<button style="margin-left:350px" type="reset" value='Reset'>Reset Form</button>
 		</form>
 		</body>
+		
 </html>
