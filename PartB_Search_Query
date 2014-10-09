@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html>
 <head>
 <title>Wines</title>
@@ -61,7 +65,59 @@
 	{
 		$max_cost	 = 9999;
 	}
-
+	
+	if($start_year > $end_year)
+	{
+		echo "<table style='margin-left:529px;margin-top:100px' border='0'>
+				<tr>
+					<td>
+						<img src='../logo.jpg' alt='Mountain View' style='width:150px;height:150px'>
+					</td>
+					<td style='text-align:center'>
+						<h1>Wine Search</h1>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
+						Created By Tharindu Gamage
+					</td>
+				</tr>
+			</table>";
+			
+			echo "<div style='margin-left:450px;margin-top:70px;font-size:20px'><b>".'Your Start Year Must Be Smaller Than Your End Year!!!'."</b></div>";
+			
+			echo "</br></br><a style='margin-top:200px;margin-left:450px' href=\"Main Page.php\">Back to Search Form</a><br/><br/>";
+	}	
+	
+	else if($min_cost > $max_cost)
+	{
+		echo "<table style='margin-left:529px;margin-top:100px' border='0'>
+				<tr>
+					<td>
+						<img src='../logo.jpg' alt='Mountain View' style='width:150px;height:150px'>
+					</td>
+					<td style='text-align:center'>
+						<h1>Wine Search</h1>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
+						Created By Tharindu Gamage
+					</td>
+				</tr>
+			</table>";
+			
+			echo "<div style='margin-left:410px;margin-top:70px;font-size:20px'><b>".'Your Minimum Cost Must Be Smaller Than Your Maximum Cost!!!'."</b></div>";
+			
+			echo "</br></br><a style='margin-top:200px;margin-left:410px' href=\"Main Page.php\">Back to Search Form</a><br/><br/>";
+	}	
+	
+	else
+	{
 	  // (2) Run the query on the winestore through the connection
 	  $query = "SELECT wine_name,variety,year,winery_name,region_name,on_hand,cost, 
 				(SELECT COUNT(items.cust_id) 
@@ -113,6 +169,7 @@
 			</table>";
 			
 			echo "<div style='margin-left:520px;margin-top:70px;font-size:20px'><b>".'No Search Results Matching Your Criteria!!!'."</b></div>";
+			echo "</br></br><a style='margin-top:200px;margin-left:520px' href=\"Main Page.php\">Back to Search Form</a><br/><br/>";
 		}
 	  
 		  else
@@ -159,10 +216,12 @@
 		  }
 		  echo "</td></tr>";
 		  echo "</table>";
+		  echo "</br><a style='margin-left:130px' href=\"Main Page.php\">Back to Search Form</a><br/><br/>";
 		  }	
 		
 	  // (4) Close the database connection
 	  mysqli_close($connection);
+	 }
 ?>
 </body>
 </html>
