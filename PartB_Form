@@ -1,4 +1,4 @@
-	<script>
+test	<script>
 			function myFunction() {
 				document.getElementById("wine_search").reset();
 			}
