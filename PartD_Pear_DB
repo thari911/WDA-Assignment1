@@ -6,10 +6,14 @@ require "../db.inc";
 
 
 $template = new HTML_Template_IT("."); 
-$template2 = new HTML_Template_IT(".");    
+$template2 = new HTML_Template_IT(".");
+$template3 = new HTML_Template_IT(".");    
+$template4 = new HTML_Template_IT(".");     
 $template->loadTemplatefile("Template_Results.tpl", true, true);	
 $template2->loadTemplatefile("Template_No_Results.tpl",false,false);
-  
+$template3->loadTemplatefile("Template_Year_Validation.tpl",false,false);
+$template4->loadTemplatefile("Template_Cost_Validation.tpl",false,false);
+	 
 $username="root";
 $password="nigger";
 $hostname="localhost";
@@ -99,8 +103,21 @@ $max_cost = $_GET['cost_max_range'];
   
 	@$result=$connection->query($query);
 			 
-	   
-		if($result->numrows() == 0)
+		if($start_year > $end_year)
+		{
+			$template3->setCurrentBlock("YEAR_VALIDATION");	
+		
+		$template3->show(); 
+		}
+		
+		else if($min_cost > $max_cost)
+		{
+			$template4->setCurrentBlock("COST_VALIDATION");	
+		
+		$template4->show(); 
+		}
+		
+		else if($result->numrows() == 0)
 		{
 			$template2->setCurrentBlock("RESULT_Failed");	
 		
