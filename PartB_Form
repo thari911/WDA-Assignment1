@@ -16,7 +16,7 @@
 
 <?php
 
-	//session_start();
+	//session_start();test
 	$connection = mysqli_connect("localhost","root","nigger","winestore");	
 	$result = mysqli_query($connection, "SELECT * FROM winestore");
 
