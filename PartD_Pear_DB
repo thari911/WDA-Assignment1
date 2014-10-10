@@ -14,11 +14,7 @@ $template2->loadTemplatefile("Template_No_Results.tpl",false,false);
 $template3->loadTemplatefile("Template_Year_Validation.tpl",false,false);
 $template4->loadTemplatefile("Template_Cost_Validation.tpl",false,false);
 	 
-// $username="root";
-// $password="nigger";
-// $hostname="localhost";
-// $dbname="winestore";
-
+	 
 $dsn = "mysql://{$username}:{$password}@{$hostName}/{$databaseName}";
 	$DB = new DB();
 	$connection=$DB->connect($dsn);
