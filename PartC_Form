@@ -28,12 +28,22 @@
 	<link rel="stylesheet" href="style.css" type="text/css" />
 	</head>
 	<body>
-		<table style="margin-left:529px;margin-top:100px" border="0">
-		<tr><td>
-		<img src="../logo.jpg" alt="Mountain View" style="width:150px;height:150px">
-		</td>
-		<td><h1>Wine Search</h1></td>
-		</tr>
+		<table style='margin-left:529px;margin-top:100px' border='0'>
+				<tr>
+					<td>
+						<img src='../logo.jpg' alt='Mountain View' style='width:150px;height:150px'>
+					</td>
+					<td style='text-align:center'>
+						<h1>Wine Search</h1>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
+						Created By Tharindu Gamage
+					</td>
+				</tr>
 		</table>
 		
 		<table style="margin-left:350px;margin-top:30px" border="0">
